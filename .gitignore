@@ -1,0 +1,9 @@
+# vite default structure
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+
+# ignore yarn framework
+yarn.lock

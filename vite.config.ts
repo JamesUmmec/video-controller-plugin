@@ -12,5 +12,10 @@ export default defineConfig({
     },
     outDir: path.resolve(__dirname, "plugin"),
     emptyOutDir: true
+  },
+
+  // open the demo page in the server
+  server: {
+    open: "/test/demo.html"
   }
 })

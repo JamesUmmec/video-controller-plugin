@@ -10,3 +10,10 @@ yarn.lock
 
 # ignore output folder
 plugin
+
+# ignore config folder for common editors
+.vscode
+.idea
+
+# ignore sketches folder
+sketches

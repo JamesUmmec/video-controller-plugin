@@ -7,3 +7,6 @@ dist-ssr
 
 # ignore yarn framework
 yarn.lock
+
+# ignore output folder
+plugin

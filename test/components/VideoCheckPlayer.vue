@@ -1,6 +1,6 @@
 <template>
   <div id="frame" class="center" ref="frame">
-    <video :controls="false" v-bind:src="videoPath"/>
+    <video :controls="false" v-bind:src="videoPath" muted/>
   </div>
   <div class="video-comment">
     This video player is designed to force you to watch the video carefully.<br>

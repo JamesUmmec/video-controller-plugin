@@ -1,6 +1,6 @@
 <template>
   <div id="frame" class="center">
-    <video :controls="true" v-bind:src="videoPath"/>
+    <video :controls="true" v-bind:src="videoPath" muted/>
   </div>
 
   <div class="video-comment">

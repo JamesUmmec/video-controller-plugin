@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
+import {defineComponent} from "vue"
 
 // Path from the root to the assets folder of the test page.
 const ASSETS_PATH = "/test/assets/"

@@ -1,3 +1,16 @@
+// Font configuration from the root, and add additional decoration for SC fonts.
+body {
+  font-family:
+          sans-serif,                // default sans serif font
+          "HarmonyOS Sans SC",       // for HarmonyOS devices
+          "PingFang SC",             // for Apple devices
+          "Source Han Sans",         // which is commonly used on Linux
+          "Microsoft YaHei UI"       // Windows default font for SC...
+  ;
+}
+
+// Followings are commonly used styles in most of vue components
+
 // make child elements center (col)
 .center {
   display: flex;

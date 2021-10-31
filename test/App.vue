@@ -26,4 +26,17 @@ body {
     }
   }
 }
+
+// Global and root font style
+body {
+  font-family:
+      sans-serif,                // default sans serif font
+      "HarmonyOS Sans SC",       // for HarmonyOS devices
+      "PingFang SC",             // for Apple devices
+      "Source Han Sans",         // which is commonly used on Linux
+      "Microsoft YaHei UI",      // Windows default font for SC...
+      "Helvetica",               // Latin sans font
+      "Arial"                    // Latin sans font
+  ;
+}
 </style>

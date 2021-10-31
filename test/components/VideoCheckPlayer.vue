@@ -1,11 +1,11 @@
 <template>
-  <div id="frame" class="center">
+  <div id="frame" class="center" ref="frame">
     <video :controls="false" v-bind:src="videoPath"/>
   </div>
   <div class="video-comment">
     This video player is designed to force you to watch the video carefully.<br>
-    But you can use this plugin to free yourself.<br>
-    这个视频会用有趣的方式让你认真观看，但可以用插件挣脱束缚
+    But you can use this <b>plugin</b> to free yourself.<br>
+    这个视频会用有趣的方式让你认真观看，但可以用<b>插件</b>挣脱束缚
   </div>
   <div id="user-control"></div>
 </template>
@@ -25,6 +25,13 @@ export default defineComponent({
   data() {
     return {
       videoPath: ASSETS_PATH + this.src
+    }
+  },
+  mounted() {
+    // Prevent user from calling the contextmenu.
+    // (There are options to control video speed in Firefox contextmenu)
+    this.$refs["frame"].oncontextmenu = () => {
+      return false
     }
   }
 })

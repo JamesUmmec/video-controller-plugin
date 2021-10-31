@@ -1,6 +1,7 @@
 <template>
-  <div id="frame"><video v-bind:src="videoPath"></video></div>
-  <div id="control"></div>
+  <div id="frame">
+    <video :controls="true" v-bind:src="videoPath"/>
+  </div>
 </template>
 
 <script lang="ts">
@@ -33,11 +34,15 @@ export default defineComponent({
   position: absolute;
   height: 100%;
   width: 100%;
-}
-#control {
-  position: absolute;
-  width: 100%;
-  height: 3.5rem;
-  bottom: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  video {
+    max-width: 100%;
+    max-height: 100%;
+  }
 }
 </style>

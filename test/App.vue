@@ -32,6 +32,7 @@ body {
 body {
   background-color: #232323;
   color: #9b9b9b;
+  b {color: #e8d982;}
   font-family:
       sans-serif,                // default sans serif font
       "HarmonyOS Sans SC",       // for HarmonyOS devices

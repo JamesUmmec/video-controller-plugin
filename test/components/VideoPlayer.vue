@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import {defineComponent} from "vue"
-import {ASSETS_PATH} from "../public"
+import {ASSETS_PATH} from "../common/public"
 
 export default defineComponent({
   name: "VideoPlayer",
@@ -20,10 +20,7 @@ export default defineComponent({
     return {
       videoPath: ASSETS_PATH + this.src
     }
-  },
-  mounted() {
-  },
-  methods: {}
+  }
 })
 </script>
 

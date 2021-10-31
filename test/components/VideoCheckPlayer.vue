@@ -1,5 +1,5 @@
 <template>
-  <div id="frame">
+  <div id="frame" class="center">
     <video :controls="false" v-bind:src="videoPath"/>
   </div>
   <div id="user-control"></div>
@@ -26,19 +26,12 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import "../common/public";
+@import "../common/video";
+
 #frame {
   position: absolute;
   height: 100%;
   width: 100%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  video {
-    max-width: 100%;
-    max-height: 100%;
-  }
 }
 </style>

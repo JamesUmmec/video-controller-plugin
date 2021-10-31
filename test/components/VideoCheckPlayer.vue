@@ -13,6 +13,8 @@
     <div id="control-button" class="center" @click="controlClick">
       <img alt="" v-bind:src="iconPath"/>
     </div>
+
+    <div id="time-display">{{timeDisplay}}</div>
   </div>
 </template>
 
@@ -32,7 +34,8 @@ export default defineComponent({
   data() {
     return {
       videoPath: ASSETS_PATH + this.src,
-      iconPath: ICON_PATH.play
+      iconPath: ICON_PATH.play,
+      timeDisplay: "loading..."
     }
   },
   mounted() {
@@ -129,6 +132,15 @@ export default defineComponent({
         box-shadow: 0 0 12px #161616;
       }
     }
+  }
+
+  #time-display {
+    position: absolute;
+    height: $height;
+    line-height: $height;
+    padding: 0 0.5 * $height;
+    bottom: 0;
+    right: 0;
   }
 }
 </style>

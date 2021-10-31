@@ -2,6 +2,12 @@
   <div id="frame" class="center">
     <video :controls="true" v-bind:src="videoPath"/>
   </div>
+
+  <div class="video-comment">
+    This is a common video player with default controller of your browser<br>
+    which is under your control.<br>
+    这个视频可以用浏览器默认界面自由控制
+  </div>
 </template>
 
 <script lang="ts">

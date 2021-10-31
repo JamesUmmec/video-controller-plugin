@@ -2,6 +2,11 @@
   <div id="frame" class="center">
     <video :controls="false" v-bind:src="videoPath"/>
   </div>
+  <div class="video-comment">
+    This video player is designed to force you to watch the video carefully.<br>
+    But you can use this plugin to free yourself.<br>
+    这个视频会用有趣的方式让你认真观看，但可以用插件挣脱束缚
+  </div>
   <div id="user-control"></div>
 </template>
 

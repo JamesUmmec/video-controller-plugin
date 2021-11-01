@@ -31,3 +31,13 @@ export const RANDOM_PAUSE = {
   minDuration: 2500,
   maxDuration: 3500
 }
+
+/**
+ * Texts displayed on the header router area.
+ */
+export const HEADER_ROUTER_TEXT = {
+  raw: "此页面未嵌入插件，点击按钮转到嵌入插件的页面。" +
+      "This page did not embedded the plugin. Click the button to view which with the plugin.",
+  plugin: "此页面已经内置插件，点击按钮转到不含插件的页面。" +
+      "This page embedded the plugin already. Click the button to view raw page which did not."
+}

@@ -16,6 +16,6 @@ export default defineConfig({
 
   // open the demo page in the server
   server: {
-    open: "/test/demo.html"
+    open: "/test/plugin.html"
   }
 })

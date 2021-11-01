@@ -25,7 +25,6 @@
     <div id="time-display" class="mono" v-bind:class="timeDisplayClass" v-html="timeDisplay"/>
   </div>
 
-  <!-- TODO: build text and btn in popup window -->
   <div id="monitor" class="center" v-bind:class="monitorDisplayClass">
     <div id="popup">
       <div id="text-area" class="hide-scroll">

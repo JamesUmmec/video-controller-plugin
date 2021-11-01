@@ -14,7 +14,8 @@
       <img alt="" v-bind:src="iconPath"/>
     </div>
 
-    <div id="time-display">{{timeDisplay}}</div>
+    <!-- TODO: bind judgement function -->
+    <div id="time-display" v-bind:class="timeDisplayStyleClass">{{timeDisplay}}</div>
   </div>
 </template>
 
@@ -35,7 +36,8 @@ export default defineComponent({
     return {
       videoPath: ASSETS_PATH + this.src,
       iconPath: ICON_PATH.play,
-      timeDisplay: "loading..."
+      timeDisplay: "loading...",
+      timeDisplayStyleClass: "loading"
     }
   },
   mounted() {
@@ -141,6 +143,27 @@ export default defineComponent({
     padding: 0 0.5 * $height;
     bottom: 0;
     right: 0;
+  }
+
+  // time display when loading
+  // TODO: add style
+  .loading {
+    font-weight: bold;
+    animation-name: loading-blink;
+    animation-duration: 1250ms;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+    @keyframes loading-blink {
+      0% { color: #787878; }
+      100% { color: #dedede; }
+    }
+  }
+
+  // time display at normal state
+  // TODO: add style
+  .normal {
+    color: #cdcdcd;
+    font-weight: bolder;
   }
 }
 </style>

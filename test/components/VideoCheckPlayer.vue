@@ -1,6 +1,14 @@
 <template>
   <div id="frame" class="center" ref="frame" @contextmenu="preventContextmenu">
-    <video ref="video" :controls="false" v-bind:src="videoPath" muted @play="uiOnPlay" @pause="uiOnPause"/>
+    <video
+        ref="video"
+        :controls="false"
+        v-bind:src="videoPath"
+        muted
+        @play="uiOnPlay"
+        @pause="uiOnPause"
+        @canplay="videoCanPlay"
+    />
   </div>
 
   <div class="video-comment">
@@ -33,7 +41,7 @@
 
 <script lang="ts">
 import {defineComponent} from "vue"
-import {ASSETS_PATH, ICON_PATH, defineMediaPlayingJudgement} from "../common/public"
+import {ASSETS_PATH, ICON_PATH, defineMediaPlayingJudgement, formatTime} from "../common/public"
 import {POPUP_TEXTS} from "../common/config"
 
 export default defineComponent({
@@ -95,6 +103,22 @@ export default defineComponent({
       } else {
         this.$refs["video"].play()
       }
+    },
+
+    /**
+     * When the video is already able to play,
+     * launch the display of video time state.
+     */
+    videoCanPlay() {
+      console.log("it works")
+
+      this.timeDisplayClass = "normal"
+      let fullTime = formatTime(this.$refs["video"].duration)
+
+      // update video time state once 100ms
+      setInterval(() => {
+        this.timeDisplay = `<b>${formatTime(this.$refs["video"].currentTime)}</b> / ${fullTime}`
+      }, 100)
     }
   }
 })

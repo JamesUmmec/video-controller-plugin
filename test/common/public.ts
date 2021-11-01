@@ -18,8 +18,27 @@ export const ICON_PATH = {
  */
 export function defineMediaPlayingJudgement() {
   Object.defineProperty(HTMLMediaElement.prototype, 'isPlaying', {
-    get: function(){
+    get: function() {
       return (this.currentTime > 0 && !this.paused && !this.ended && this.readyState > 2)
     }
   })
+}
+
+/**
+ * Format time from seconds (even float type) into "HH:mm:ss" or "mm:ss" display format.
+ * @param rawSeconds
+ */
+export function formatTime(rawSeconds: number): string {
+  let hours = Math.floor(rawSeconds/3600)
+  let minutes = Math.floor(rawSeconds/60%60)
+  let seconds = Math.floor(rawSeconds%60)
+
+  let formatSeconds = seconds<10 ? "0"+seconds : seconds
+
+  if(hours>0) {
+    let formatMinutes = minutes<10 ? "0"+minutes : minutes
+    return `${hours}:${formatMinutes}:${formatSeconds}`
+  } else {
+    return `${minutes}:${formatSeconds}`
+  }
 }

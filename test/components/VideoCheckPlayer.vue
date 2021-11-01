@@ -15,7 +15,12 @@
     </div>
 
     <!-- TODO: bind judgement function -->
-    <div id="time-display" v-bind:class="timeDisplayStyleClass">{{timeDisplay}}</div>
+    <div id="time-display" v-bind:class="timeDisplayClass">{{timeDisplay}}</div>
+  </div>
+
+  <!-- TODO: build text and btn in popup window -->
+  <div id="monitor" class="center" v-bind:class="monitorDisplayClass">
+    <div id="popup"></div>
   </div>
 </template>
 
@@ -37,7 +42,8 @@ export default defineComponent({
       videoPath: ASSETS_PATH + this.src,
       iconPath: ICON_PATH.play,
       timeDisplay: "loading...",
-      timeDisplayStyleClass: "loading"
+      timeDisplayClass: "loading",
+      monitorDisplayClass: "show",
     }
   },
   mounted() {
@@ -89,6 +95,16 @@ export default defineComponent({
 @import "../common/public";
 @import "../common/video";
 
+// Color control area
+$shadow-color: #161616;
+// the blinking animation when loading the video.
+$loading-blink-dark: #787878;
+$loading-blink-light: #dedede;
+// the blocking lines as background for teh monitor,
+// which block user from clicking the play button.
+$blocking-bg: #ababab25;
+$blocking-ln: #dedede25;
+
 // Fill the area where it located.
 #frame {
   position: absolute;
@@ -131,7 +147,7 @@ export default defineComponent({
         height: $rater;
         transition: all 215ms;
 
-        box-shadow: 0 0 12px #161616;
+        box-shadow: 0 0 12px $shadow-color;
       }
     }
   }
@@ -153,15 +169,44 @@ export default defineComponent({
     animation-iteration-count: infinite;
     animation-direction: alternate-reverse;
     @keyframes loading-blink {
-      0% { color: #787878; }
-      100% { color: #dedede; }
+      0% { color: $loading-blink-dark; }
+      100% { color: $loading-blink-light; }
     }
   }
 
   // time display at normal state
   .normal {
-    color: #cdcdcd;
-    font-weight: bolder;
+    color: $loading-blink-light;
+    font-weight: normal;
+  }
+}
+
+// Monitor that force user to watch carefully...
+#monitor {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: $blocking-bg;
+  background-image: repeating-linear-gradient(
+    45deg,
+    $blocking-ln,
+    $blocking-ln 5px,
+    transparent 0,
+    transparent 10px
+  );
+
+  // style class control show or hide
+  .show { display: block; }
+  .hide { display: none; }
+
+  // popup window for user interface
+  #popup {
+    width: 23rem;
+    height: 22rem;
+    background-color: #dedede;
+    border-radius: 0.8rem;
+    box-shadow: 0 0 5px $shadow-color;
   }
 }
 </style>

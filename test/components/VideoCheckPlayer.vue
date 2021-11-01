@@ -146,7 +146,6 @@ export default defineComponent({
   }
 
   // time display when loading
-  // TODO: add style
   .loading {
     font-weight: bold;
     animation-name: loading-blink;
@@ -160,7 +159,6 @@ export default defineComponent({
   }
 
   // time display at normal state
-  // TODO: add style
   .normal {
     color: #cdcdcd;
     font-weight: bolder;

@@ -5,3 +5,10 @@
   justify-content: center;
   align-items: center;
 }
+
+.hide-scroll {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

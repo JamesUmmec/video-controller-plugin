@@ -5,9 +5,10 @@
         :controls="false"
         v-bind:src="videoPath"
         muted
-        @play="uiOnPlay"
-        @pause="uiOnPause"
+        @play="onPlay"
+        @pause="onPause"
         @canplay="videoCanPlay"
+        @ended="videoFinished"
     />
   </div>
 
@@ -40,7 +41,7 @@
 <script lang="ts">
 import {defineComponent} from "vue"
 import {ASSETS_PATH, ICON_PATH, defineMediaPlayingJudgement, formatTime} from "../common/public"
-import {POPUP_TEXTS} from "../common/config"
+import {POPUP_TEXTS, RANDOM_PAUSE} from "../common/config"
 
 export default defineComponent({
   name: "VideoCheckPlayer",
@@ -77,17 +78,32 @@ export default defineComponent({
     },
 
     /**
-     * When playing the video, shift the icon for UI display.
+     * When playing the video, shift the icon and launch timer for the next pause.
      */
-    uiOnPlay() {
+    onPlay() {
       this.iconPath = ICON_PATH.pause
+
+      // set timer for the next pause
+      setTimeout(() => {
+        this.$refs["video"].pause()
+        this.monitorDisplayClass = "show"
+      }, Math.random()*(RANDOM_PAUSE.maxDuration - RANDOM_PAUSE.minDuration) + RANDOM_PAUSE.minDuration)
     },
 
     /**
      * When pausing the video, shift the icon for UI display.
      */
-    uiOnPause() {
+    onPause() {
       this.iconPath = ICON_PATH.play
+    },
+
+    /**
+     * When the video finished
+     */
+    videoFinished() {
+      this.$refs["video"].pause()
+      this.popupText = POPUP_TEXTS.success
+      this.monitorDisplayClass = "show"
     },
 
     /**

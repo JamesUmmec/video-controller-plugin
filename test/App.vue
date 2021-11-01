@@ -34,13 +34,13 @@ body {
   color: #9b9b9b;
   b {color: #e8d982;}
   font-family:
-      sans-serif,                // default sans serif font
-      "HarmonyOS Sans SC",       // for HarmonyOS devices
-      "PingFang SC",             // for Apple devices
-      "Source Han Sans",         // which is commonly used on Linux
-      "Microsoft YaHei UI",      // Windows default font for SC...
-      "Helvetica",               // Latin sans font
-      "Arial"                    // Latin sans font
+    sans-serif,
+    "HarmonyOS Sans SC",
+    "PingFang SC",
+    "Source Han Sans",
+    "Microsoft YaHei UI",
+    "Helvetica",
+    "Arial"
   ;
 }
 </style>

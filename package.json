@@ -7,9 +7,9 @@
     "email": "dreamingboat@outlook.com"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
+    "dev.raw": "vite --mode raw",
+    "dev.plugin": "vite --mode plugin",
+    "build": "vue-tsc --noEmit && vite build"
   },
   "dependencies": {
     "vue": "^3.2.16"

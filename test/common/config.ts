@@ -22,3 +22,12 @@ export const POPUP_TEXTS = {
       "<p>Congradulations! You've already finished watching that video." +
       "You can click the button to reload the page to test again.</p>"
 }
+
+/**
+ * Every how long time will it stop for asking user click button.
+ * Attention that the unit is milliseconds !!!
+ */
+export const RANDOM_PAUSE = {
+  minDuration: 2500,
+  maxDuration: 3500
+}

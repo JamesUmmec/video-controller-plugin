@@ -21,9 +21,7 @@
     <div id="control-button" class="center" @click="controlClick">
       <img alt="" v-bind:src="iconPath"/>
     </div>
-
-    <!-- TODO: bind judgement function -->
-    <div id="time-display" v-bind:class="timeDisplayClass" v-html="timeDisplay"/>
+    <div id="time-display" class="mono" v-bind:class="timeDisplayClass" v-html="timeDisplay"/>
   </div>
 
   <!-- TODO: build text and btn in popup window -->
@@ -33,7 +31,7 @@
         <div v-html="popupText"/>
       </div>
       <div id="button-area" class="center">
-        <div id="popup-button">知道了 Understood.</div>
+        <div id="popup-button" @click="popupClicked">知道了 Understood.</div>
       </div>
     </div>
   </div>
@@ -110,15 +108,32 @@ export default defineComponent({
      * launch the display of video time state.
      */
     videoCanPlay() {
-      console.log("it works")
-
       this.timeDisplayClass = "normal"
       let fullTime = formatTime(this.$refs["video"].duration)
 
       // update video time state once 100ms
       setInterval(() => {
-        this.timeDisplay = `<b>${formatTime(this.$refs["video"].currentTime)}</b> / ${fullTime}`
+        this.timeDisplay = `<b>${formatTime(this.$refs["video"].currentTime)}</b>/${fullTime}`
       }, 100)
+    },
+
+    /**
+     * When clicking the popup button.
+     */
+    popupClicked() {
+      switch (this.popupText) {
+        case POPUP_TEXTS.beginning:
+          this.monitorDisplayClass = "hide"
+          this.popupText = POPUP_TEXTS.paused
+          break
+        case POPUP_TEXTS.paused:
+          this.monitorDisplayClass = "hide"
+          this.$refs["video"].play()
+          break
+        case POPUP_TEXTS.success:
+          window.location.reload()
+          break
+      }
     }
   }
 })

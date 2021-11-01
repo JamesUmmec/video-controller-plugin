@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import VideoPlayer from "./components/VideoPlayer.vue"
 import VideoCheckPlayer from "./components/VideoCheckPlayer.vue"
+import HeaderRouter from "./components/HeaderRouter.vue"
 </script>
 
 <template>
   <div id="left" class="side"><VideoPlayer src="cloudstream.mp4"></VideoPlayer></div>
   <div id="right" class="side"><VideoCheckPlayer src="windwave.mp4"/></div>
+  <HeaderRouter/>
 </template>
 
 <style lang="scss">

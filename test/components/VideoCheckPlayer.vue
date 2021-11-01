@@ -25,7 +25,7 @@
         <div v-html="popupText"/>
       </div>
       <div id="button-area" class="center">
-        <div id="popup-button">Click me!</div>
+        <div id="popup-button">知道了 Understood.</div>
       </div>
     </div>
   </div>
@@ -237,7 +237,7 @@ $popup-btn-bg: #4b8ad5;
     overflow-y: scroll;
 
     > div {
-      padding: 2.5rem;
+      padding: 1.5rem 2.5rem 0;
       line-height: 1.5rem;
       font-size: 1rem;
       color: $popup-text-color;
@@ -245,6 +245,11 @@ $popup-btn-bg: #4b8ad5;
       text-align: justify;
       text-justify: inter-ideograph;
       text-indent: 2rem;
+
+      > p {
+        text-indent: 2rem;
+        padding: 0.5rem;
+      }
     }
   }
 

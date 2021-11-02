@@ -1,7 +1,7 @@
 <template>
   <div id="pad" ref="pad" v-bind:class="padClass">
     <!-- icon mode -->
-    <div id="icon" class="center"
+    <div id="icon" class="center" v-bind:class="iconClass"
          @mousedown="iconMousedown"
          @mouseup="clearMousedown"
          @drag="preventDefault"
@@ -32,6 +32,7 @@ export default defineComponent({
       menuShow: false,
       mousedown: false,
       menuPin: false,
+      iconClass: "",
       iconImageClass: "",
       padClass: "pad-raw-size",
 
@@ -93,7 +94,13 @@ export default defineComponent({
         document.onmousemove = null
 
         // Shift mode into bottom
-        this.padDom.style.top = (event.clientY - this.referencePosition.top) + "px"
+        this.padDom.style.bottom = (
+          document.documentElement.clientHeight -
+          event.clientY +
+          this.referencePosition.top -
+          this.padDom.clientHeight
+        ) + "px"
+        this.padDom.style.top = ""
         this.padDom.style.position = "fixed"
       }
     },
@@ -105,6 +112,9 @@ export default defineComponent({
       this.padDom.style.width = "15rem"
       this.padDom.style.height = "25rem"
       this.padDom.style.borderRadius = "0.8rem"
+      setTimeout(() => {
+        this.iconClass = "icon-hide"
+      }, 325)
 
       document.onclick = (event) => {
         //@ts-ignore
@@ -121,6 +131,9 @@ export default defineComponent({
       this.padDom.style.height = ""
       this.padDom.style.borderRadius = ""
       this.padClass = "pad-raw-size"
+      setTimeout(() => {
+        this.iconClass = ""
+      }, 325)
 
       // Optimization for better quality.
       document.onclick = null
@@ -192,6 +205,7 @@ $dragging-min: 85%;
   100% { width: 100%; height: 100%; }
 }
 
+.icon-hide { display: none; }
 #icon {
   width: 100%;
   height: 100%;
@@ -219,7 +233,6 @@ $dragging-min: 85%;
 }
 @keyframes show-icon {
   0% { opacity: 0 }
-  75% { opacity: 0 }
   100% { opacity: 100% }
 }
 

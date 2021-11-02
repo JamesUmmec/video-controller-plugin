@@ -4,8 +4,12 @@
     <div id="icon" class="center"
          @mousedown="iconMousedown"
          @mouseup="clearMousedown"
-         @mouseleave="clearMousedown"
-         @mouseout="clearMousedown"
+         @drag="preventDefault"
+         @dragend="preventDefault"
+         @dragenter="preventDefault"
+         @dragleave="preventDefault"
+         @dragover="preventDefault"
+         @dragstart="preventDefault"
     >
       <img alt="" src="/public/favicon.svg" v-bind:class="iconImageClass"/>
     </div>
@@ -28,11 +32,27 @@ export default defineComponent({
       menuShow: false,
       mousedown: false,
       iconImageClass: "",
+
+      /**
+       * Reason of using "top" here but "bottom" for the style sheet:
+       * "top" for better quality when reposition the pad,
+       * while "bottom" to describe the static position fixed to the screen,
+       * which avoid get out of the screen when resizing the webpage.
+       * Don't forget to shift mode !!!
+       */
       referencePosition: {
         left: 0,
         top: 0
-      }
+      },
+      /**
+       * Get specified dom in this vue component.
+       * Don't use getElementById() for this id might be polluted by the raw frame.
+       */
+      padDom: undefined as unknown as HTMLDivElement,
     }
+  },
+  mounted() {
+    this.padDom = this.$refs.pad as HTMLDivElement
   },
   methods: {
     /**
@@ -40,26 +60,44 @@ export default defineComponent({
      * Short click means open menu window.
      */
     iconMousedown(event: MouseEvent) {
+      // Get necessary data.
       this.mousedown = true
       this.referencePosition = {
         left: event.offsetX,
         top: event.offsetY
       }
 
+      // Judge drag or click, and execute different processes.
       setTimeout(() => {
         if (this.mousedown) {
-          // TODO drag
           this.iconImageClass = "dragging"
+
+          // Shift mode
+          this.padDom.style.position = "absolute"
+          document.onmousemove = (event) => {
+            this.padDom.style.top = event.pageY - this.referencePosition.top + "px"
+            this.padDom.style.left = event.pageX - this.referencePosition.left + "px"
+          }
         } else {
           // TODO click and show menu
         }
       }, MOUSEDOWN_DELAY)
     },
 
-    clearMousedown() {
+    clearMousedown(event: MouseEvent) {
       this.mousedown = false
       this.iconImageClass = ""
-    }
+
+      // Optimization for better quality.
+      if (document.onmousemove) {
+        document.onmousemove = null
+
+        // Shift mode into bottom
+        this.padDom.style.top = (event.clientY - this.referencePosition.top) + "px"
+        this.padDom.style.position = "fixed"
+      }
+    },
+    preventDefault(event: Event) { event.preventDefault() }
   }
 })
 </script>
@@ -76,7 +114,10 @@ $icon-size: 2.6rem;
   z-index: 9999;
   user-select: none;
 
-  // default position on page
+  // Use bottom rather than top for position style description:
+  // not only because convenient for style sheet,
+  // but also avoid condition that the control button get outside of the screen
+  // when resizing the webpage.
   bottom: $icon-size;
   left: $icon-size;
 

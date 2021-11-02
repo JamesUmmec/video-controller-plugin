@@ -27,12 +27,25 @@ export default defineComponent({
     return {
       menuShow: false,
       mousedown: false,
-      iconImageClass: ""
+      iconImageClass: "",
+      referencePosition: {
+        left: 0,
+        top: 0
+      }
     }
   },
   methods: {
-    iconMousedown() {
+    /**
+     * Long click means drag,
+     * Short click means open menu window.
+     */
+    iconMousedown(event: MouseEvent) {
       this.mousedown = true
+      this.referencePosition = {
+        left: event.offsetX,
+        top: event.offsetY
+      }
+
       setTimeout(() => {
         if (this.mousedown) {
           // TODO drag
@@ -42,6 +55,7 @@ export default defineComponent({
         }
       }, MOUSEDOWN_DELAY)
     },
+
     clearMousedown() {
       this.mousedown = false
       this.iconImageClass = ""
@@ -60,6 +74,7 @@ $icon-size: 2.6rem;
 #pad {
   position: fixed;
   z-index: 9999;
+  user-select: none;
 
   // default position on page
   bottom: $icon-size;
@@ -103,7 +118,7 @@ $dragging-min: 85%;
   }
 }
 
-#menu {
-  //
-}
+// Menu default hide.
+// When show, created by scripts.
+#menu { display: none; }
 </style>

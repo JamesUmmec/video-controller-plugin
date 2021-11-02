@@ -4,4 +4,4 @@
  * Delay for judge mousedown or click.
  * Attention: unit is millisecond !!!
  */
-export const MOUSEDOWN_DELAY = 200
+export const MOUSEDOWN_DELAY = 450

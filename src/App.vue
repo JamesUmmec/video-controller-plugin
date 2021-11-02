@@ -1,5 +1,5 @@
 <template>
-  <div id="pad" ref="pad">
+  <div id="pad" ref="pad" v-bind:class="padClass">
     <!-- icon mode -->
     <div id="icon" class="center"
          @mousedown="iconMousedown"
@@ -31,7 +31,9 @@ export default defineComponent({
     return {
       menuShow: false,
       mousedown: false,
+      menuPin: false,
       iconImageClass: "",
+      padClass: "pad-raw-size",
 
       /**
        * Reason of using "top" here but "bottom" for the style sheet:
@@ -78,12 +80,10 @@ export default defineComponent({
             this.padDom.style.top = event.pageY - this.referencePosition.top + "px"
             this.padDom.style.left = event.pageX - this.referencePosition.left + "px"
           }
-        } else {
-          // TODO click and show menu
-        }
+        } else { this.showMenu() }
       }, MOUSEDOWN_DELAY)
     },
-
+    preventDefault(event: Event) { event.preventDefault() },
     clearMousedown(event: MouseEvent) {
       this.mousedown = false
       this.iconImageClass = ""
@@ -97,7 +97,34 @@ export default defineComponent({
         this.padDom.style.position = "fixed"
       }
     },
-    preventDefault(event: Event) { event.preventDefault() }
+
+    showMenu() {
+      this.menuShow = true
+      this.iconImageClass = "transparent"
+      this.padClass = "menu-bg"
+      this.padDom.style.width = "15rem"
+      this.padDom.style.height = "25rem"
+      this.padDom.style.borderRadius = "0.8rem"
+
+      document.onclick = (event) => {
+        //@ts-ignore
+        if (event.target && !this.padDom.contains(event.target)) {
+          this.hideMenu()
+        }
+      }
+    },
+
+    hideMenu() { if(this.menuShow && !this.menuPin) {
+      this.menuShow = false
+      this.iconImageClass = "icon-image-show"
+      this.padDom.style.width = ""
+      this.padDom.style.height = ""
+      this.padDom.style.borderRadius = ""
+      this.padClass = "pad-raw-size"
+
+      // Optimization for better quality.
+      document.onclick = null
+    }}
   }
 })
 </script>
@@ -107,6 +134,12 @@ export default defineComponent({
 
 // Default icon size as a basic size unit.
 $icon-size: 2.6rem;
+
+// default bg color for the pad
+$pad-bg: #dedede;
+$pad-border-color: #787878;
+
+$menu-show-duration: 350ms;
 
 // Display icon or menu in different mode.
 #pad {
@@ -121,9 +154,28 @@ $icon-size: 2.6rem;
   bottom: $icon-size;
   left: $icon-size;
 
-  // default size same as the icon
+  transition:
+    width $menu-show-duration,
+    height $menu-show-duration,
+    border-spacing $menu-show-duration,
+    background-color $menu-show-duration
+  ;
+}
+
+// default size same as the icon
+.pad-raw-size {
   width: $icon-size;
   height: $icon-size;
+  border-radius: $icon-size/2;
+}
+
+// Attention: add this to the #pad when menu display, pad bg is the menu bg.
+.menu-bg {
+  background-color: $pad-bg;
+  transition: background-color $menu-show-duration;
+
+  border: solid 0.5px $pad-border-color;
+  border-radius: $icon-size/2;
 }
 
 // When the pad is being drag to change position
@@ -131,7 +183,7 @@ $dragging-min: 85%;
 .dragging {
   transition: all 125ms;
   animation-name: begin-drag;
-  animation-duration: 435ms;
+  animation-duration: 350ms;
 }
 @keyframes begin-drag {
   // for the <img> tag, which size relative to the outer #icon tag.
@@ -141,8 +193,9 @@ $dragging-min: 85%;
 }
 
 #icon {
-  width: $icon-size;
-  height: $icon-size;
+  width: 100%;
+  height: 100%;
+  position: absolute;
 
   > img {
     width: 100%;
@@ -151,12 +204,23 @@ $dragging-min: 85%;
     box-shadow: 0 0 10px #161616;
 
     filter: brightness(80%);
-    transition: all 475ms;
+    transition: filter 375ms;
     &:hover {
       filter: brightness(100%);
       transition: all 475ms;
     }
   }
+}
+
+.transparent { opacity: 0; }
+.icon-image-show {
+  animation-name: show-icon;
+  animation-duration: 375ms;
+}
+@keyframes show-icon {
+  0% { opacity: 0 }
+  75% { opacity: 0 }
+  100% { opacity: 100% }
 }
 
 // Menu default hide.

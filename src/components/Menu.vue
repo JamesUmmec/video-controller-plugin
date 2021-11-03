@@ -10,16 +10,7 @@
       </div>
     </header>
 
-    <article class="hide-scroll">
-      <!-- TODO here is temp for ui display, delete it after finished. -->
-      <VideoController index="0"/>
-      <VideoController index="1"/>
-      <VideoController index="2"/>
-      <VideoController index="3"/>
-      <VideoController index="4"/>
-      <VideoController index="5"/>
-      <VideoController index="6"/>
-    </article>
+    <article ref="article" class="hide-scroll"></article>
 
     <footer class="center">
       <div v-bind:class="reloadClass" @click="reloadClick">刷新 Reload</div>
@@ -28,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue"
+import {createApp, defineComponent} from "vue"
 import VideoController from "./VideoController.vue"
 
 export default defineComponent({
@@ -40,16 +31,34 @@ export default defineComponent({
       textClass: "show",
       reloadClass: "show",
       text: "加载中 Loading...",
-      controllers: []
+      controllers: [],
+
+      /** Avoid calling id. */
+      articleDom: undefined as unknown as HTMLDivElement
     }
   },
   mounted() {
+    this.articleDom = this.$refs.article as HTMLDivElement
     this.refresh()
   },
   methods: {
     /** initialize is also a kind of refresh. */
     refresh() {
+      // Clean before create new
+      this.articleDom.innerHTML = ""
+
       let videos = document.getElementsByTagName("video")
+      this.text = `视频 ${videos.length} videos`
+      for (let index = 0; index < videos.length; index++) {
+        let controller = document.createElement("div")
+        createApp(
+          VideoController, {
+            index: index,
+            videoObject: videos[index]
+          }
+        ).mount(controller)
+        this.articleDom.appendChild(controller)
+      }
     },
 
     /** pin or unpin, and call parent variable to check state */

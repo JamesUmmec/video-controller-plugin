@@ -25,17 +25,19 @@
       <img alt="" src="../assets/pause.svg" title="强制暂停 Force pause" @click="forcePauseClick"/>
     </div>
 
-    <div id="highlight" class="center">
-      <img alt="" src="../assets/highlight.svg" title="高亮此视频 Highlight this video" @click="highlightVideo"/>
+    <div id="highlight" class="center" @click="highlightVideo">
+      <img alt="" src="../assets/highlight.svg" title="高亮此视频 Highlight this video"/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue"
+import {createApp, defineComponent} from "vue"
+import VideoHighlighter from "./VideoHighlighter.vue"
 
 export default defineComponent({
   name: "VideoController",
+  components: {VideoHighlighter},
   props: {
     /**
      * The index number of the video.
@@ -60,13 +62,12 @@ export default defineComponent({
       forcePlayClass: "disable-force",
       forcePause: false,
       forcePauseClass: "disable-force",
-
-      /** Avoid call id for there are more than one video controllers here. */
       speedDom: undefined as unknown as HTMLDivElement
     }
   },
   mounted() {
     this.speedDom = this.$refs.speed as HTMLDivElement
+    // TODO add animation here
   },
   methods: {
     // TODO default select all for convenient edit
@@ -120,6 +121,13 @@ export default defineComponent({
 
     highlightVideo() {
       // TODO require logical setting
+      let highlighter = document.createElement("div")
+      this.videoObject?.offsetParent?.appendChild(highlighter)
+      createApp(VideoHighlighter, {videoObject: this.videoObject}).mount(highlighter)
+      setTimeout(() => {
+        // save memory (although not necessary)
+        highlighter.remove()
+      }, 900)
     }
   }
 })
@@ -239,5 +247,13 @@ $hover-duration: 235ms;
       background-color: #91b2d5;
     }
   }
+}
+
+// Same position as which video,
+// Which dom is created by script for temp use.
+@keyframes video-blink {
+  0% { opacity: 0 }
+  50% { opacity: 35% }
+  100% { opacity: 0 }
 }
 </style>

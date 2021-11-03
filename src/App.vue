@@ -182,7 +182,7 @@ $menu-show-duration: 350ms;
 .pad-raw-size {
   width: $icon-size;
   height: $icon-size;
-  border-radius: $icon-size/2;
+  border-radius: $icon-size*0.5;
 }
 
 // Attention: add this to the #pad when menu display, pad bg is the menu bg.
@@ -191,7 +191,7 @@ $menu-show-duration: 350ms;
   transition: background-color $menu-show-duration;
 
   border: solid 0.5px $pad-border-color;
-  border-radius: $icon-size/2;
+  border-radius: $icon-size*0.5;
 }
 
 // When the pad is being drag to change position

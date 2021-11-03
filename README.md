@@ -16,9 +16,22 @@ Once install the plugin,
 when there are videos in your page,
 the control button will appear.
 
+It's not convenient for the author to upload this plugin onto
+platforms such as plugin store of chrome or firefox,
+so before the author done that,
+just install the plugin in development mode of your browser.
+
 ## Project structure
 This project uses `vite2` as dev and build tool, and use `components` of `vue3` as basic framework.
+As for the languages, this project uses `ts` and `scss`.
 - `public` as vite default structure, only an icon image here.
 - `scripts` source of `manifest.json` file for different platforms.
 - `src` where the plugin locates.
 - `test` a test page for testing the plugin.
+
+### Output folder
+The output folder is not `dist` like `vite` default.
+The plugin will be output into the `plugin` folder
+(which had been ignored by git).
+Process of copying into zip files and rename
+will still be done manually.

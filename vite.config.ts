@@ -1,6 +1,7 @@
-import {BuildOptions, defineConfig} from 'vite'
-import vue from '@vitejs/plugin-vue'
-import path from 'path'
+import {defineConfig} from "vite"
+import vue from "@vitejs/plugin-vue"
+import {viteSingleFile} from "vite-plugin-singlefile"
+import path from "path"
 
 /**
  * Only the plugin can build in library mode.
@@ -17,15 +18,28 @@ export default defineConfig(({command, mode}) => {
   }
 
   return {
-    plugins: [vue()],
+    plugins: [
+        vue(),
+        viteSingleFile()
+    ],
     build: {
       lib: {
         entry: path.resolve(__dirname, "src/main.ts"),
         name: "videoController",
-        fileName: (format) => `plugin.${format}.js`
+        // fileName: (format) => `plugin.${format}.js`
       },
       outDir: path.resolve(__dirname, "plugin"),
-      emptyOutDir: true
+      emptyOutDir: false,
+      target: "es6",
+      rollupOptions: {
+        inlineDynamicImports: true,
+        output: {
+          manualChunks: () => "everything.js",
+          entryFileNames: `[name].js`,
+          chunkFileNames: `[name].js`,
+          assetFileNames: `[name].[ext]`
+        }
+      }
     },
     server: {
       open: rootPagePath

@@ -48,7 +48,16 @@ export default defineComponent({
       this.articleDom.innerHTML = ""
 
       let videos = document.getElementsByTagName("video")
-      this.text = `视频 ${videos.length} videos`
+
+      // UI display effect
+      setTimeout(() => {
+        this.textClass = "hide"
+        setTimeout(() => {
+          this.text = `视频 ${videos.length} videos`
+          this.textClass = "show"
+        }, 350)
+      }, 350)
+
       for (let index = 0; index < videos.length; index++) {
         let controller = document.createElement("div")
         createApp(
@@ -77,8 +86,9 @@ export default defineComponent({
 
     reloadClick() {
       this.textClass = "hide"
-      this.refresh()
       setTimeout(() => {
+        // Speed here is not necessary, animation effect is more important. 233
+        this.refresh()
         this.text = "加载中 Loading..."
         this.textClass = "show"
       }, 350)

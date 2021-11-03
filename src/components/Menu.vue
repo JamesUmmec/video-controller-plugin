@@ -1,8 +1,7 @@
 <template>
   <div id="full">
     <header>
-      <!-- TODO: when change content, transparent and recover -->
-      <div id="display" v-text="text"/>
+      <div id="display" class="single-line" v-text="text" v-bind:class="textClass"/>
 
       <div id="pin" class="center">
         <div class="center" v-bind:class="pinClass" @click="pinClick">
@@ -11,10 +10,10 @@
       </div>
     </header>
 
-    <article></article>
+    <article class="hide-scroll"></article>
 
     <footer class="center">
-      <div>刷新 Reload</div>
+      <div v-bind:class="reloadClass" @click="reloadClick">刷新 Reload</div>
     </footer>
   </div>
 </template>
@@ -27,7 +26,9 @@ export default defineComponent({
   data() {
     return {
       pinClass: "unpin",
-      text: "加载中 loading...",
+      textClass: "show",
+      reloadClass: "show",
+      text: "加载中 Loading...",
       controllers: []
     }
   },
@@ -39,8 +40,28 @@ export default defineComponent({
     refresh() {
       let videos = document.getElementsByTagName("video")
     },
+
+    /** pin or unpin, and call parent variable to check state */
     pinClick() {
-      // TODO call outer component pin variable, get and set.
+      // @ts-ignore
+      if (this.$parent.menuPin) {
+        // @ts-ignore
+        this.$parent.menuPin = false
+        this.pinClass = "unpin"
+      } else {
+        // @ts-ignore
+        this.$parent.menuPin = true
+        this.pinClass = "pin"
+      }
+    },
+
+    reloadClick() {
+      this.textClass = "hide"
+      this.refresh()
+      setTimeout(() => {
+        this.text = "加载中 Loading..."
+        this.textClass = "show"
+      }, 350)
     }
   }
 })
@@ -85,7 +106,6 @@ header {
     line-height: $header-height;
     left: $header-height*0.5;
     right: $header-height;
-    /* TODO text in single line and ellipse */
   }
 
   #pin {
@@ -135,5 +155,15 @@ footer > div {
     color: #dedede;
     transition: all 235ms;
   }
+}
+
+// animation on show or hide the items
+.hide {
+  opacity: 0;
+  transition: opacity 325ms;
+}
+.show {
+  opacity: 100%;
+  transition: opacity 325ms;
 }
 </style>

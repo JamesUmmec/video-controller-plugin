@@ -6,6 +6,7 @@
     "name": "James U",
     "email": "dreamingboat@outlook.com"
   },
+  "license": "MIT",
   "scripts": {
     "dev.raw": "vite --mode raw",
     "dev.plugin": "vite --mode plugin",

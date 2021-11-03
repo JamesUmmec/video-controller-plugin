@@ -1,31 +1,32 @@
 <template>
   <div id="tag">
     <div id="index" class="center">
-      <div class="center" v-text="index" />
+      <div class="center" v-text="index+1" />
     </div>
 
     <div id="speed-rate" class="single-line">
       <span ref="speed"
-           contenteditable="true"
-           @keydown.enter="speedEnter"
-           @keydown.esc="setSpeedRate"
-           @blur="setSpeedRate"
-           @focus="speedFocus"
+            title="修改视频倍速 Edit video speed rate"
+            contenteditable="true"
+            @keydown.enter="speedEnter"
+            @keydown.esc="setSpeedRate"
+            @blur="setSpeedRate"
+            @focus="speedFocus"
       >
         1.00
       </span>x
     </div>
 
     <div id="force-play" class="center" v-bind:class="forcePlayClass">
-      <img alt="" src="../assets/play.svg" @click="forcePlayClick"/>
+      <img alt="" src="../assets/play.svg" title="强制播放 Force play" @click="forcePlayClick"/>
     </div>
 
     <div id="force-pause" class="center" v-bind:class="forcePauseClass">
-      <img alt="" src="../assets/pause.svg" @click="forcePauseClick"/>
+      <img alt="" src="../assets/pause.svg" title="强制暂停 Force pause" @click="forcePauseClick"/>
     </div>
 
     <div id="highlight" class="center">
-      <img alt="" src="../assets/highlight.svg" @click="highlightVideo"/>
+      <img alt="" src="../assets/highlight.svg" title="高亮此视频 Highlight this video" @click="highlightVideo"/>
     </div>
   </div>
 </template>

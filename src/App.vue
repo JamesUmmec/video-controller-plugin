@@ -1,5 +1,5 @@
 <template>
-  <div id="pad" ref="pad" v-bind:class="padClass">
+  <div id="pad" ref="pad" v-bind:class="padClass" class="default-font">
     <!-- icon mode -->
     <div id="icon" class="center" v-bind:class="iconClass"
          @mousedown="iconMousedown"
@@ -15,7 +15,7 @@
     </div>
 
     <!-- menu mode -->
-    <div id="menu"><Menu/></div>
+    <div id="menu" v-bind:class="menuClass"><Menu/></div>
   </div>
 </template>
 
@@ -33,6 +33,7 @@ export default defineComponent({
       mousedown: false,
       menuPin: false,
       iconClass: "",
+      menuClass: "hide-menu",
       iconImageClass: "",
       padClass: "pad-raw-size",
 
@@ -110,10 +111,11 @@ export default defineComponent({
       this.iconImageClass = "transparent"
       this.padClass = "menu-bg"
       this.padDom.style.width = "15rem"
-      this.padDom.style.height = "25rem"
+      this.padDom.style.height = "15rem"
       this.padDom.style.borderRadius = "0.8rem"
       setTimeout(() => {
         this.iconClass = "icon-hide"
+        this.menuClass = "show-menu"
       }, 325)
 
       document.onclick = (event) => {
@@ -126,6 +128,7 @@ export default defineComponent({
 
     hideMenu() { if(this.menuShow && !this.menuPin) {
       this.menuShow = false
+      this.menuClass = "hide-menu"
       this.iconImageClass = "icon-image-show"
       this.padDom.style.width = ""
       this.padDom.style.height = ""
@@ -238,5 +241,18 @@ $dragging-min: 85%;
 
 // Menu default hide.
 // When show, created by scripts.
-#menu { display: none; }
+.hide-menu { display: none; }
+.show-menu {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: block;
+
+  animation-name: show-menu;
+  animation-duration: 100ms;
+}
+@keyframes show-menu {
+  0% { opacity: 0; }
+  100% { opacity: 100%; }
+}
 </style>

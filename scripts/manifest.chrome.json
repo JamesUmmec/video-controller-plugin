@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Video Controller",
+  "version": "1.0",
+  "description": "video controller testing here...",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "main.js"
+      ],
+      "css": [
+        "style.css"
+      ]
+    }
+  ]
+}

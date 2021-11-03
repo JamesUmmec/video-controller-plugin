@@ -66,7 +66,6 @@ export default defineComponent({
   },
   mounted() {
     this.speedDom = this.$refs.speed as HTMLDivElement
-    // TODO add animation here
 
     // Enable force pause
     this.videoObject?.addEventListener("play", () => {

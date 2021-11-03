@@ -52,7 +52,7 @@ export default defineComponent({
     /** HTML video element object for direct call. */
     videoObject: {
       type: HTMLVideoElement,
-      require: false
+      require: true
     }
   },
   data() {
@@ -68,6 +68,20 @@ export default defineComponent({
   mounted() {
     this.speedDom = this.$refs.speed as HTMLDivElement
     // TODO add animation here
+
+    // Enable force pause
+    this.videoObject?.addEventListener("play", () => {
+      if(this.forcePause) {
+        this.videoObject?.pause()
+      }
+    })
+
+    // Enable force play
+    this.videoObject?.addEventListener("pause", () => {
+      if(this.forcePlay) {
+        this.videoObject?.play()
+      }
+    })
   },
   methods: {
     // TODO default select all for convenient edit
@@ -92,12 +106,17 @@ export default defineComponent({
       if(isNaN(this.speedRate)) { this.speedRate = 1.0 }
       if(this.speedRate <= 0.01) { this.speedRate = 1.0 }
       this.speedDom.innerText = this.speedRate.toFixed(2)
-      // TODO require logical setting
+
+      // Don't forget to ensure it is not undefined first !!!
+      if(this.videoObject) {
+        this.videoObject.playbackRate = this.speedRate
+      }
     },
 
     forcePlayClick() {
-      // TODO require logical setting
       this.forcePlay = !this.forcePlay
+      this.videoObject?.play() // don't forget to launch first
+
       if(this.forcePlay) {
         this.forcePause = false
         this.forcePauseClass = "disable-force"
@@ -108,8 +127,9 @@ export default defineComponent({
     },
 
     forcePauseClick() {
-      // TODO require logical setting
       this.forcePause = !this.forcePause
+      this.videoObject?.pause() // don't forget to launch first
+
       if(this.forcePause) {
         this.forcePlay = false
         this.forcePlayClass = "disable-force"

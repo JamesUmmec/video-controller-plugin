@@ -11,7 +11,6 @@
             @keydown.enter="speedEnter"
             @keydown.esc="setSpeedRate"
             @blur="setSpeedRate"
-            @focus="speedFocus"
       >
         1.00
       </span>x
@@ -84,11 +83,6 @@ export default defineComponent({
     })
   },
   methods: {
-    // TODO default select all for convenient edit
-    speedFocus() {
-      //
-    },
-
     speedEnter(event: KeyboardEvent) {
       event.preventDefault()
       this.setSpeedRate()

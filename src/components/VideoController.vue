@@ -120,14 +120,13 @@ export default defineComponent({
     },
 
     highlightVideo() {
-      // TODO require logical setting
       let highlighter = document.createElement("div")
       this.videoObject?.offsetParent?.appendChild(highlighter)
       createApp(VideoHighlighter, {videoObject: this.videoObject}).mount(highlighter)
       setTimeout(() => {
         // save memory (although not necessary)
         highlighter.remove()
-      }, 900)
+      }, 900) // when edit time, view VideoHighlighter.vue style keyframes.
     }
   }
 })

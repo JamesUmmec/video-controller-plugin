@@ -10,7 +10,16 @@
       </div>
     </header>
 
-    <article class="hide-scroll"></article>
+    <article class="hide-scroll">
+      <!-- TODO here is temp for ui display, delete it after finished. -->
+      <VideoController index="0"/>
+      <VideoController index="1"/>
+      <VideoController index="2"/>
+      <VideoController index="3"/>
+      <VideoController index="4"/>
+      <VideoController index="5"/>
+      <VideoController index="6"/>
+    </article>
 
     <footer class="center">
       <div v-bind:class="reloadClass" @click="reloadClick">刷新 Reload</div>
@@ -20,9 +29,11 @@
 
 <script lang="ts">
 import {defineComponent} from "vue"
+import VideoController from "./VideoController.vue"
 
 export default defineComponent({
   name: "Menu",
+  components: {VideoController},
   data() {
     return {
       pinClass: "unpin",
@@ -90,13 +101,16 @@ $footer-height: 2.35rem;
   article {
     top: $header-height;
     bottom: $footer-height;
-    background-color: antiquewhite;
+    overflow-x: hidden;
     overflow-y: scroll;
   }
 }
 
 header {
   $pin-rate: 0.45;
+  border-bottom: solid 0.5px #cdcdcd;
+  z-index: 100;
+
   > div {
     position: absolute;
     height: 100%;
@@ -114,7 +128,7 @@ header {
     > div {
       width: $header-height*$pin-rate;
       height: $header-height*$pin-rate;
-      border-radius: $header-height*$pin-rate/2;
+      border-radius: $header-height*$pin-rate*0.5;
 
       > img {
         width: 100%;

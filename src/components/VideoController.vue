@@ -4,27 +4,28 @@
       <div class="center" v-text="index" />
     </div>
 
-    <div id="speed-rate">
-      <div ref="speed"
+    <div id="speed-rate" class="single-line">
+      <span ref="speed"
            contenteditable="true"
-           class="single-line"
-           @keydown="speedKeys"
+           @keydown.enter="speedEnter"
+           @keydown.esc="setSpeedRate"
            @blur="setSpeedRate"
+           @focus="speedFocus"
       >
-        1.00x
-      </div>
+        1.00
+      </span>x
     </div>
 
-    <div id="force-play" class="center" v-bind:class="forceClass">
-      <img alt="" src="../assets/play.svg"/>
+    <div id="force-play" class="center" v-bind:class="forcePlayClass">
+      <img alt="" src="../assets/play.svg" @click="forcePlayClick"/>
     </div>
 
-    <div id="force-pause" class="center" v-bind:class="forceClass">
-      <img alt="" src="../assets/pause.svg"/>
+    <div id="force-pause" class="center" v-bind:class="forcePauseClass">
+      <img alt="" src="../assets/pause.svg" @click="forcePauseClick"/>
     </div>
 
     <div id="highlight" class="center">
-      <img alt="" src="../assets/highlight.svg"/>
+      <img alt="" src="../assets/highlight.svg" @click="highlightVideo"/>
     </div>
   </div>
 </template>
@@ -53,7 +54,11 @@ export default defineComponent({
   },
   data() {
     return {
-      forceClass: "disable-force",
+      speedRate: 1.0,
+      forcePlay: false,
+      forcePlayClass: "disable-force",
+      forcePause: false,
+      forcePauseClass: "disable-force",
 
       /** Avoid call id for there are more than one video controllers here. */
       speedDom: undefined as unknown as HTMLDivElement
@@ -64,21 +69,57 @@ export default defineComponent({
   },
   methods: {
     // TODO default select all for convenient edit
-    speedFocus() {},
+    speedFocus() {
+      //
+    },
 
-    speedKeys(event: KeyboardEvent) {
-      // TODO key judgement in more details
-      if (event.key === "enter") {
-        event.preventDefault()
-        this.setSpeedRate()
-      } else if (event.key === "esc") {
-        event.preventDefault()
-        this.speedDom.blur()
+    speedEnter(event: KeyboardEvent) {
+      event.preventDefault()
+      this.setSpeedRate()
+    },
+
+    setSpeedRate() {
+      this.speedDom.blur()
+
+      try {
+        this.speedRate = parseFloat(this.speedDom.innerText)
+      } catch (error) {
+        this.speedRate = 1.0
+      }
+
+      if(isNaN(this.speedRate)) { this.speedRate = 1.0 }
+      if(this.speedRate <= 0.01) { this.speedRate = 1.0 }
+      this.speedDom.innerText = this.speedRate.toFixed(2)
+      // TODO require logical setting
+    },
+
+    forcePlayClick() {
+      // TODO require logical setting
+      this.forcePlay = !this.forcePlay
+      if(this.forcePlay) {
+        this.forcePause = false
+        this.forcePauseClass = "disable-force"
+        this.forcePlayClass = "enable-force"
+      } else {
+        this.forcePlayClass = "disable-force"
       }
     },
 
-    // TODO mention that there might be invalid value string
-    setSpeedRate() {}
+    forcePauseClick() {
+      // TODO require logical setting
+      this.forcePause = !this.forcePause
+      if(this.forcePause) {
+        this.forcePlay = false
+        this.forcePlayClass = "disable-force"
+        this.forcePauseClass = "enable-force"
+      } else {
+        this.forcePauseClass = "disable-force"
+      }
+    },
+
+    highlightVideo() {
+      // TODO require logical setting
+    }
   }
 })
 </script>
@@ -140,23 +181,61 @@ $hover-duration: 235ms;
     height: $height*$rate*$rater;
   }
 }
-#highlight > img { filter: brightness(145%); }
-.enable-force { filter: none; }
-.disable-force { filter: contrast(0); }
+#highlight > img {
+  filter: brightness(145%);
+  transition: filter $hover-duration;
+  &:hover {
+    filter: none;
+    transition: filter $hover-duration;
+  }
+}
+
+.enable-force {
+  filter: none;
+  > img {
+    filter: none;
+    transition: filter $hover-duration;
+    &:hover {
+      filter: brightness(65%);
+      transition: filter $hover-duration;
+    }
+  }
+}
+
+.disable-force {
+  filter: contrast(0);
+  > img {
+    opacity: 50%;
+    transition: opacity $hover-duration;
+    &:hover {
+      opacity: 100%;
+      transition: opacity $hover-duration;
+    }
+  }
+}
 
 #speed-rate {
   left: $height + 2*$padding-side;
   right: 3*$height*$rate + 1.5*$padding-side;
-  > div {
+
+  text-align: right;
+  font-size: 0.88rem;
+  > span {
     line-height: $height;
-    width: 100%;
-    text-align: right;
-    font-size: 0.88rem;
+
+    padding: 0.1rem 0.2rem;
+    margin-right: 0.2rem;
+    border-width: 0;
+    border-radius: 0.2rem;
 
     transition: color $hover-duration;
     &:focus {
       color: #232323;
+      background-color: #c4d3e5;
       transition: color $hover-duration;
+    }
+    &::selection {
+      background-color: #91b2d5;
     }
   }
 }

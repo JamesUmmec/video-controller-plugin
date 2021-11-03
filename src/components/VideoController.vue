@@ -246,8 +246,9 @@ $hover-duration: 235ms;
 
     padding: 0.1rem 0.2rem;
     margin-right: 0.2rem;
-    border-width: 0;
     border-radius: 0.2rem;
+    border: none;
+    outline: none;
 
     transition: color $hover-duration;
     &:focus {

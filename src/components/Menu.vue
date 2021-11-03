@@ -53,7 +53,7 @@ export default defineComponent({
       setTimeout(() => {
         this.textClass = "hide"
         setTimeout(() => {
-          this.text = `视频 ${videos.length} videos`
+          this.text = `${videos.length}个视频 / ${videos.length} videos`
           this.textClass = "show"
         }, 350)
       }, 350)
